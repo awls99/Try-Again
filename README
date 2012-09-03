@@ -1,0 +1,28 @@
+This method is usefull for when you want to attempt to get a resource on a network and it may fail.
+Or maybe you know that there's a possibility that the databases haven't sync yet and you want to try a few times till they do.
+
+This is one of the first few pieces of code I ever wrote in Ruby, it was intented to be help on random failure we had on automated testes where we were testing big applications that included many machines and databases whose sync was not always perfect (or our tests were too fast for the sync).
+
+It's really easy to use
+Just do 
+TryAgain.retry do
+    some code
+end
+
+By default it attempts your code 3 times with a 3 seconds sleep in between IF your code raises a StandardError.
+I SERIOUSLY recomend your code to raise some other error other than StandardError, or you may have some unexpected results when something that shouldn't fail does.
+
+You have a few options that you can pass:
+:attempts => (int) number of times to try run block till give up; defaults 3
+:sleep    => (int) seconds between each attempt; defaults 3
+:error    => (Constant) error to listen to; defaults StandardError
+:output   => (IO Object) It's kinda like a debug mode, but you can send an object like $stderr our $stdout or even a file so it's output doesn't get in the way of your normal output; defaults nil
+:kill    => (Boolean) If true after the last attempt it will raise your error back to you; defaults false
+
+You pass them as an hash like so:
+
+TryAgain.retry(:error => MyCustomErrorClass) do
+   raise MyCustomErrorClass if something
+end
+
+Finally, if :kill => false this method returns a Boolean whatever it passed or not.
