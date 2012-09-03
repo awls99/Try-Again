@@ -5,6 +5,9 @@ This is one of the first few pieces of code I ever wrote in Ruby, it was intente
 
 It's really easy to use
 Just do 
+
+require 'try_again'
+
 TryAgain.retry do
     some code
 end

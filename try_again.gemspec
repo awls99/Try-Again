@@ -1,5 +1,5 @@
 Gem::Specification.new do |s|
-  s.name        = 'Try Again'
+  s.name        = 'try_again'
   s.version     = '1.0.0'
   s.date        = '2012-09-03'
   s.summary     = 'A helping method to to retry a block a few times with a sleep in between'
