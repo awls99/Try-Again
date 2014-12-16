@@ -1,34 +1,32 @@
-#@version 1
+#@version 2
 #@author Arthur
 module TryAgain
 #@param options [Hash] (:sleep => number, :attempts => number, :error => Error, :kill => boolean)
 #@param block [Block] block of code to be attempted
 #@return [Boolean]
-    def self.retry( options={}, &block )
-        defaults = { :sleep => 3, :attempts => 3, :error => StandardError, :kill => false, :output => nil }
-        options  = defaults.merge options
-        out      = options[:output]
+    def self.retry( sleep: 3, attempts: 3, error: StandardError, kill: false, output: nil, &block )
+        out      = output
         if out and !out.is_a? IO
             raise InvalidOutput
         end
-        attempts = 0
-        failed   = false
+        attempted = 0
+        failed    = false
 
         begin
             yield
-        rescue options[:error]
-            attempts += 1
-            out.puts "#{ options[:error].to_s } for the #{attempts}# attempt" if out
-            if attempts < options[:attempts]
-                sleep options[:sleep]
+        rescue error => e
+            attempted += 1
+            out.puts "#{ error.to_s } for the #{attempts}# attempt" if out
+            if attempted < attempts
+                sleep sleep
                 retry
             end
-            out.puts "#Giving up on #{ options[:error].to_s }, too many attempts" if out
-            raise options[:error] if options[:kill]
+            out.puts "#Giving up on #{ error.to_s }, too many attempts" if out
+            raise e if kill
             failed = true
         end
         if !failed and out
-            out.puts "#{ options[:error].to_s } took #{attempts + 1} attempts to pass"
+            out.puts "#{ error.to_s } took #{attempts + 1} attempts to pass"
         end
         return !failed
     end

@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
   s.name        = 'try_again'
-  s.version     = '1.0.0'
-  s.date        = '2012-09-03'
+  s.version     = '2.0.0'
+  s.date        = '2014-12-16'
   s.summary     = 'A helping method to to retry a block a few times with a sleep in between'
   s.description = <<EOF
   This method is usefull for when you want to attempt to get a resource on a network and it may fail \n
