@@ -1,3 +1,8 @@
+##New in version 2.0.0##
+This version is incompatible with ruby < 2.x
+Also, if kill == true, it preserves the original error to show you what really went wrong
+#####
+
 This method is usefull for when you want to attempt to get a resource on a network and it may fail.
 Or maybe you know that there's a possibility that the databases haven't sync yet and you want to try a few times till they do.
 
@@ -28,4 +33,4 @@ TryAgain.retry(:error => MyCustomErrorClass) do
    raise MyCustomErrorClass if something
 end
 
-Finally, if :kill => false this method returns a Boolean whatever it passed or not.
+Finally, if :kill => false TryAgain.retry returns a Boolean telling you whatever there was an error or not.
