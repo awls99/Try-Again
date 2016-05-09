@@ -5,8 +5,10 @@ module TryAgain
 #@param block [Block] block of code to be attempted
 #@return [Boolean]
     def self.retry( sleep: 3, attempts: 3, error: StandardError, kill: false, output: nil, &block )
+        tries||=0
+        tries+=1
         out      = output
-        if out and !out.is_a? IO
+        if out and !out.respond_to? :puts
             raise InvalidOutput
         end
         attempted = 0
@@ -16,7 +18,7 @@ module TryAgain
             yield
         rescue error => e
             attempted += 1
-            out.puts "#{ error.to_s } for the #{attempts}# attempt" if out
+            out.puts "#{ error.to_s } for the #{tries}# attempt" if out
             if attempted < attempts
                 sleep sleep
                 retry
@@ -26,7 +28,7 @@ module TryAgain
             failed = true
         end
         if !failed and out
-            out.puts "#{ error.to_s } took #{attempts + 1} attempts to pass"
+            out.puts "#{ error.to_s } took #{tries} attempts to pass"
         end
         return !failed
     end

@@ -24,7 +24,7 @@ You have a few options that you can pass:
 :attempts => (int) number of times to try run block till give up; defaults 3
 :sleep    => (int) seconds between each attempt; defaults 3
 :error    => (Constant) error to listen to; defaults StandardError
-:output   => (IO Object) It's kinda like a debug mode, but you can send an object like $stderr our $stdout or even a file so it's output doesn't get in the way of your normal output; defaults nil
+:output   => Debug mode, but you can send anything that responds to :puts and you'll get debug info there; defaults nil
 :kill    => (Boolean) If true after the last attempt it will raise your error back to you; defaults false
 
 You pass them as an hash like so:
